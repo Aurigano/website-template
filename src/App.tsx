@@ -18,7 +18,10 @@ function App() {
 		<BrowserRouter>
 			<Routes>
 				<Route path="/" element={<Dashboard setOpen={setOpen} />} />
-				<Route path="/about" element={<About />} />
+				<Route
+					path="/about"
+					element={<About open={open} setOpen={setOpen} />}
+				/>
 				<Route path="/contact-us" element={<ContactUs />} />
 				<Route
 					path="/admin-login"
