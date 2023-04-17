@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Hamburger2 from "./Hamburger2";
+import { useNavigate } from "react-router-dom";
 
 const StyledDiv = styled.div`
 	// background: red;
@@ -19,10 +20,11 @@ const StyledDiv = styled.div`
 		max-width: 1280px;
 		max-height: 720px;
 		height: 100%;
-		margin: 20px 0;
+		width: 100%;
+		margin: 20px 50px;
 	}
 	.flex-part {
-		min-width: 500px;
+		/* min-width: 500px; */
 		flex-basis: 50%;
 		flex: 1;
 		padding: 50px;
@@ -137,6 +139,7 @@ const AdminLogin = ({
 	open: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+	const navigate = useNavigate();
 	const [values, setValues] = React.useState({ email: "", password: "" });
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setValues({ ...values, [event.target.name]: event.target.value });
@@ -144,6 +147,7 @@ const AdminLogin = ({
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		console.log(values);
+		navigate("/admin");
 	};
 	return (
 		<StyledDiv>

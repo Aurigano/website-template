@@ -22,12 +22,18 @@ function App() {
 					path="/about"
 					element={<About open={open} setOpen={setOpen} />}
 				/>
-				<Route path="/contact-us" element={<ContactUs />} />
+				<Route
+					path="/contact-us"
+					element={<ContactUs open={open} setOpen={setOpen} />}
+				/>
 				<Route
 					path="/admin-login"
 					element={<AdminLogin open={open} setOpen={setOpen} />}
 				/>
-				<Route path="/admin" element={<Admin />} />
+				<Route
+					path="/admin"
+					element={<Admin open={open} setOpen={setOpen} />}
+				/>
 			</Routes>
 			{open && (
 				<StyledDiv>

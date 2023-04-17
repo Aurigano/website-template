@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import supabase from "../config/supabase";
 import styled from "styled-components";
 import Hamburger2 from "./Hamburger2";
+import { PostgrestError } from "@supabase/supabase-js";
 
 const StyledDiv = styled.div`
 	// background: red;
@@ -17,9 +19,11 @@ const StyledDiv = styled.div`
 		display: flex;
 		border-radius: 10px;
 		max-width: 1280px;
+		width: 100%;
 		max-height: 720px;
 		height: 100%;
-		margin: 20px 0;
+		margin: 20px 50px;
+		padding: 20px;
 	}
 	.flex-part {
 		min-width: 500px;
@@ -62,7 +66,8 @@ const StyledDiv = styled.div`
 		margin-top: 0;
 		color: #6a717b;
 		letter-spacing: 0.001px;
-		font-size: 16px;
+		font-size: 18px;
+		font-weight: 500;
 	}
 	.label {
 		color: #383e4a;
@@ -118,9 +123,9 @@ const StyledDiv = styled.div`
 		width: 270px;
 	}
 	.nav-menu {
-		position: absolute;
+		/* position: absolute;
 		top: 0;
-		right: 0;
+		right: 0; */
 	}
 
 	@media only screen and (max-width: 1000px) {
@@ -128,94 +133,114 @@ const StyledDiv = styled.div`
 			display: none;
 		}
 	}
+	.table {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+	.header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 15px;
+	}
+	.table-wrapper {
+		display: flex;
+		flex-direction: column;
+	}
+	h2 {
+		font-family: "Work Sans";
+		font-weight: 600;
+		margin: 5px 0;
+		font-size: 32px;
+	}
+	.row-wrapper {
+		display: flex;
+	}
+	.name-col {
+		flex: 1;
+	}
+	.email-col {
+		flex: 1;
+	}
+	.message-col {
+		flex: 2;
+	}
 `;
 
-const AdminLogin = ({
+const About = ({
 	open,
 	setOpen,
 }: {
 	open: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-	const [values, setValues] = React.useState({
-		email: "",
-		name: "",
-		message: "",
-	});
-	const handleChange = (
-		event:
-			| React.ChangeEvent<HTMLInputElement>
-			| React.ChangeEvent<HTMLTextAreaElement>
-	) => {
-		console.log(event.target.name, event.target.value);
-		setValues({ ...values, [event.target.name]: event.target.value });
-	};
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		console.log(values);
-	};
+	console.log(supabase);
+	const [data, setData] = useState<any>("");
+
+	useEffect(() => {
+		const getContactsFromDB = async () => {
+			const options = {
+				method: "GET",
+				headers: {
+					"X-RapidAPI-Key":
+						"a24378e6famshf8b45e80a7b5b8cp1b0fa3jsnd67c61334d6d",
+					"X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com",
+				},
+			};
+			const response = await fetch(
+				"https://jsonplaceholder.typicode.com/posts/1/comments",
+				options
+			);
+			const content = await response.json();
+			setData(content);
+		};
+
+		getContactsFromDB();
+	}, []);
+
+	console.log(data);
+
 	return (
 		<StyledDiv>
 			<div className="login-wrapper">
-				<div className="form flex-part">
-					<form
-						className="form-style"
-						id="contact-form"
-						onSubmit={(e) => handleSubmit(e)}
-					>
-						<h2 className="heading">Contact us.</h2>
-						<p className="sub-head">
-							Get in touch. Communicate with our team.{" "}
-						</p>
-						<p className="label">Name</p>
-						<input
-							required
-							type="name"
-							className="name-input input"
-							placeholder="Enter Name"
-							name="name"
-							id="name"
-							onChange={(e) => handleChange(e)}
-						/>
-						<p className="label">Email</p>
-						<input
-							required
-							type="email"
-							className="email-input input"
-							placeholder="Enter Email"
-							name="email"
-							id="email"
-							onChange={(e) => handleChange(e)}
-						/>
-						<p className="label">Message</p>
-						<textarea
-							required
-							className="message-input input"
-							placeholder="Enter your suggestion"
-							name="message"
-							id="message"
-							form="contact-us"
-							onChange={(e) => handleChange(e)}
-						/>
-						<button className="submit-btn" type="submit">
-							Send
-						</button>
-					</form>
-					<a href="/" className="logo-wrapper">
-						<img src="/logo.svg" alt="logo" className="logo" />
-					</a>
-				</div>
-				<div className="image flex-part">
-					<img src="/contact.png" alt="travel" className="asset" />
-					{!open && (
-						<div className="nav-menu">
-							<Hamburger2 setOpen={setOpen} />
+				{!data.error && (
+					<div className="table">
+						<div className="header">
+							<h2>About</h2>
+							{!open && (
+								<div className="nav-menu">
+									<Hamburger2
+										setOpen={setOpen}
+										variant="small"
+									/>
+								</div>
+							)}
 						</div>
-					)}
-				</div>
+						<div className="table-wrapper">
+							<div className="row-wrapper">
+								<div className="name-col sub-head">Name</div>
+								<div className="email-col sub-head">E-mail</div>
+								<div className="message-col sub-head">
+									Message
+								</div>
+							</div>
+							{data.contact?.map((row: any) => (
+								<div className="row-wrapper" key={row.id}>
+									<div className="name-col">{row.name}</div>
+									<div className="email-col">{row.email}</div>
+									<div className="message-col">
+										{row.message}
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
+				)}
+				{data.error && <div className="error">Error</div>}
 			</div>
 		</StyledDiv>
 	);
 };
 
-export default AdminLogin;
+export default About;
