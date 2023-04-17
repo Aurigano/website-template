@@ -1,0 +1,9 @@
+{
+    "rewrites":  [
+      {"source": "/", "destination": "/"},
+      {"source": "/about", "destination": "/"},
+      {"source": "/contact-us", "destination": "/"},
+      {"source": "/admin-login", "destination": "/"},
+      {"source": "/admin", "destination": "/"}
+    ]
+  }
