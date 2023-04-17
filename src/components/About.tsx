@@ -225,13 +225,9 @@ const About = ({
 									Message
 								</div>
 							</div>
-							{data.contact?.map((row: any) => (
+							{data?.map((row: any) => (
 								<div className="row-wrapper" key={row.id}>
-									<div className="name-col">{row.name}</div>
-									<div className="email-col">{row.email}</div>
-									<div className="message-col">
-										{row.message}
-									</div>
+									{row.message}
 								</div>
 							))}
 						</div>
