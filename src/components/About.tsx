@@ -24,6 +24,8 @@ const StyledDiv = styled.div`
 		height: 100%;
 		margin: 20px 50px;
 		padding: 20px;
+		position: relative;
+		overflow: hidden;
 	}
 	.flex-part {
 		min-width: 500px;
@@ -120,7 +122,10 @@ const StyledDiv = styled.div`
 		justify-content: center;
 	}
 	.asset {
-		width: 270px;
+		width: 550px;
+		position: absolute;
+		bottom: -100px;
+		right: -100px;
 	}
 	.nav-menu {
 		/* position: absolute;
@@ -146,12 +151,11 @@ const StyledDiv = styled.div`
 	}
 	.table-wrapper {
 		display: flex;
-		flex-direction: column;
 	}
 	h2 {
 		font-family: "Work Sans";
 		font-weight: 600;
-		margin: 5px 0;
+		margin: 5px 10px;
 		font-size: 32px;
 	}
 	.row-wrapper {
@@ -166,6 +170,22 @@ const StyledDiv = styled.div`
 	.message-col {
 		flex: 2;
 	}
+	.data {
+		flex: 1;
+	}
+	.flex-half {
+		flex: 1;
+		padding: 15px;
+	}
+	.flex-3 {
+		flex: 3;
+		padding: 15px;
+	}
+	.image-wrapper {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 `;
 
 const About = ({
@@ -176,21 +196,12 @@ const About = ({
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
 	console.log(supabase);
-	const [data, setData] = useState<any>("");
+	const [data, setData] = useState<any>([]);
 
 	useEffect(() => {
 		const getContactsFromDB = async () => {
-			const options = {
-				method: "GET",
-				headers: {
-					"X-RapidAPI-Key":
-						"a24378e6famshf8b45e80a7b5b8cp1b0fa3jsnd67c61334d6d",
-					"X-RapidAPI-Host": "alpha-vantage.p.rapidapi.com",
-				},
-			};
 			const response = await fetch(
-				"https://jsonplaceholder.typicode.com/posts/1/comments",
-				options
+				"https://jsonplaceholder.typicode.com/posts/1/comments"
 			);
 			const content = await response.json();
 			setData(content);
@@ -200,6 +211,9 @@ const About = ({
 	}, []);
 
 	console.log(data);
+	data.map((row: any) => {
+		console.log(row);
+	});
 
 	return (
 		<StyledDiv>
@@ -218,18 +232,36 @@ const About = ({
 							)}
 						</div>
 						<div className="table-wrapper">
-							<div className="row-wrapper">
+							{/* <div className="row-wrapper">
 								<div className="name-col sub-head">Name</div>
 								<div className="email-col sub-head">E-mail</div>
 								<div className="message-col sub-head">
 									Message
-								</div>
+								</div
+							</div> */}
+							<div className="flex-3">
+								{!data && (
+									<div className="row-wrapper">
+										Loading...
+									</div>
+								)}
+								{data &&
+									data?.map((row: any) => (
+										<div
+											className="row-wrapper"
+											key={row.id}
+										>
+											{row.body}
+										</div>
+									))}
 							</div>
-							{data?.map((row: any) => (
-								<div className="row-wrapper" key={row.id}>
-									{row.message}
-								</div>
-							))}
+							<div className="flex-half image-wrapper">
+								<img
+									src="/about.png"
+									alt="about-img"
+									className="asset"
+								/>
+							</div>
 						</div>
 					</div>
 				)}

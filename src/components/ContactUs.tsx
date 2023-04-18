@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import supabase from "../config/supabase";
 import Hamburger2 from "./Hamburger2";
 
 const StyledDiv = styled.div`
@@ -123,6 +124,14 @@ const StyledDiv = styled.div`
 		top: 0;
 		right: 0;
 	}
+	.red {
+		color: #cc3e3e !important;
+		text-align: center;
+	}
+	.dark-font {
+		color: #212121 !important;
+		text-align: center;
+	}
 
 	@media only screen and (max-width: 1000px) {
 		.image {
@@ -138,11 +147,14 @@ const ContactUs = ({
 	open: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-	const [values, setValues] = React.useState({
+	const [formError, setFormError] = useState<string | null>(null);
+	const [dataSent, setDataSent] = useState<boolean>(false);
+	const [values, setValues] = useState({
 		email: "",
 		name: "",
 		message: "",
 	});
+
 	const handleChange = (
 		event:
 			| React.ChangeEvent<HTMLInputElement>
@@ -151,9 +163,33 @@ const ContactUs = ({
 		console.log(event.target.name, event.target.value);
 		setValues({ ...values, [event.target.name]: event.target.value });
 	};
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		console.log(values);
+
+		if (!values.email || !values.email || !values.message)
+			setFormError("Please fill all the values");
+		else {
+			const { data, error } = await supabase.from("contact").insert([
+				{
+					name: values.name,
+					email: values.email,
+					message: values.message,
+				},
+			]);
+			if (error) {
+				setFormError(`Couldn't send data`);
+			} else {
+				console.log(data);
+				setDataSent(true);
+				setTimeout(() => {
+					setDataSent(false);
+				}, 3000);
+			}
+		}
+		console.log(event);
+		(event.target as HTMLFormElement).reset();
+		(document.getElementById("message") as HTMLInputElement).value = "";
 	};
 	return (
 		<StyledDiv>
@@ -162,6 +198,7 @@ const ContactUs = ({
 					<form
 						className="form-style"
 						id="contact-form"
+						name="contact-form"
 						onSubmit={(e) => handleSubmit(e)}
 					>
 						<h2 className="heading">Contact us.</h2>
@@ -201,6 +238,12 @@ const ContactUs = ({
 						<button className="submit-btn" type="submit">
 							Send
 						</button>
+						{dataSent && (
+							<p className="label dark-font">
+								{!formError && "Data sent successfully"}
+							</p>
+						)}
+						<p className="label red">{formError}</p>
 					</form>
 					<a href="/" className="logo-wrapper">
 						<img src="/logo.svg" alt="logo" className="logo" />
