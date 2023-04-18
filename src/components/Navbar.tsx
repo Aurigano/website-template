@@ -26,8 +26,10 @@ const Nav = styled("div")`
 `;
 
 const Navbar = ({
+	open,
 	setOpen,
 }: {
+	open: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
 	return (
@@ -36,7 +38,7 @@ const Navbar = ({
 				<a href="/" className="logo-wrapper">
 					<img src="/logo.svg" alt="logo" className="logo" />
 				</a>
-				<Hamburger2 setOpen={setOpen} />
+				{!open && <Hamburger2 setOpen={setOpen} />}
 			</div>
 		</Nav>
 	);

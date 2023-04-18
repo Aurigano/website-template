@@ -8,9 +8,13 @@ const StyledMenu = styled("div")`
 	text-align: left;
 	padding: 2rem;
 	position: absolute;
-	bottom: 0;
 	right: 0;
+	opacity: 0.8;
 	transition: transform 0.3s ease-in-out;
+
+	:hover {
+		opacity: 1;
+	}
 
 	@media (max-width: ${({ theme }) => theme.mobile}) {
 		width: 100%;
@@ -45,7 +49,7 @@ const StyledMenu = styled("div")`
 	.links-wrapper {
 		display: flex;
 		flex-direction: column;
-		margin-top: 69px;
+		margin-top: 10px;
 	}
 `;
 

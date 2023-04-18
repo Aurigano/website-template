@@ -9,15 +9,25 @@ import SideNav from "./components/SideNav";
 import About from "./components/About";
 
 const StyledDiv = styled("div")`
-	background: white;
+	position: sticky;
+	top: 0;
+	z-index: 2;
 `;
 
 function App() {
 	const [open, setOpen] = useState(false);
 	return (
 		<BrowserRouter>
+			{open && (
+				<StyledDiv>
+					<SideNav setOpen={setOpen} />
+				</StyledDiv>
+			)}
 			<Routes>
-				<Route path="/" element={<Dashboard setOpen={setOpen} />} />
+				<Route
+					path="/"
+					element={<Dashboard open={open} setOpen={setOpen} />}
+				/>
 				<Route
 					path="/about"
 					element={<About open={open} setOpen={setOpen} />}
@@ -35,11 +45,6 @@ function App() {
 					element={<Admin open={open} setOpen={setOpen} />}
 				/>
 			</Routes>
-			{open && (
-				<StyledDiv>
-					<SideNav setOpen={setOpen} />
-				</StyledDiv>
-			)}
 		</BrowserRouter>
 	);
 }

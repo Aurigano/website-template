@@ -10,10 +10,15 @@ const StyledDiv = styled("div")`
 `;
 
 const Dashboard = ({
+	open,
 	setOpen,
 }: {
+	open: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+	window.onscroll = function () {
+		setOpen(false);
+	};
 	const config1 = {
 		imagePosLeft: true,
 		imageUrl: "/second.svg",
@@ -26,9 +31,10 @@ const Dashboard = ({
 		heading: "Head2",
 		body: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat, harum! Aspernatur nemo maiores nostrum facere vitae vel impedit. Nostrum necessitatibus porro quaerat. Esse fugit vitae, saepe unde tempore libero laudantium.",
 	};
+
 	return (
 		<>
-			<Navbar setOpen={setOpen} />
+			<Navbar open={open} setOpen={setOpen} />
 			<StyledDiv>
 				<Header />
 				<Section config={config1} />
