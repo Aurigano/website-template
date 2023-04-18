@@ -13,7 +13,6 @@ const StyledDiv = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 20px 0;
 	.login-wrapper {
 		background-color: white;
 		display: flex;
@@ -177,8 +176,8 @@ const StyledDiv = styled.div`
 		flex: 1;
 		padding: 15px;
 	}
-	.flex-3 {
-		flex: 3;
+	.flex-2 {
+		flex: 2;
 		padding: 15px;
 	}
 	.image-wrapper {
@@ -239,7 +238,7 @@ const About = ({
 									Message
 								</div
 							</div> */}
-							<div className="flex-3">
+							<div className="flex-2">
 								{!data && (
 									<div className="row-wrapper">
 										Loading...

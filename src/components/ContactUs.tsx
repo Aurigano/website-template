@@ -12,7 +12,6 @@ const StyledDiv = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	padding: 20px 0;
 	.login-wrapper {
 		background-color: white;
 		display: flex;

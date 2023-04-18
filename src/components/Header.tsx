@@ -6,7 +6,7 @@ import Hamburger2 from "./Hamburger2";
 const StyledDiv = styled("div")`
 	background-color: #fbf9ff;
 	width: 100%;
-	height: 90vh;
+	/* height: 90vh; */
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -67,19 +67,9 @@ const StyledDiv = styled("div")`
 	}
 `;
 
-const Header = ({
-	setOpen,
-}: {
-	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const Header = () => {
 	return (
 		<StyledDiv>
-			<div className="nav">
-				<a href="/" className="logo-wrapper">
-					<img src="/logo.svg" alt="logo" className="logo" />
-				</a>
-				<Hamburger2 setOpen={setOpen} />
-			</div>
 			<div className="header">
 				<div className="text flex-part">
 					<div className="head-part">

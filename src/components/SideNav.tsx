@@ -8,7 +8,7 @@ const StyledMenu = styled("div")`
 	text-align: left;
 	padding: 2rem;
 	position: absolute;
-	top: 0;
+	bottom: 0;
 	right: 0;
 	transition: transform 0.3s ease-in-out;
 
@@ -45,6 +45,7 @@ const StyledMenu = styled("div")`
 	.links-wrapper {
 		display: flex;
 		flex-direction: column;
+		margin-top: 69px;
 	}
 `;
 
